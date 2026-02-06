@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Bubu ❤️</title>
+    <style>
+        body { background-color: #fff0f3; margin: 0; overflow: hidden; font-family: 'Verdana', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .heart-fall { position: absolute; top: -50px; user-select: none; animation: fall linear forwards; z-index: -1; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+        .envelope-wrapper { position: relative; cursor: pointer; z-index: 10; }
+        .envelope { width: 320px; height: 220px; background: #ff4d6d; position: relative; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        .envelope::before { content: ""; position: absolute; top: 0; z-index: 2; border-left: 160px solid transparent; border-right: 160px solid transparent; border-top: 110px solid #ff758f; transform-origin: top; transition: transform 0.8s ease-in-out; }
+        .card { position: absolute; bottom: 10px; left: 10px; width: 300px; height: 200px; background: white; z-index: 1; transition: 0.8s ease-in-out; text-align: center; padding: 15px; box-sizing: border-box; border-radius: 5px; overflow: hidden; }
+        .envelope-wrapper.open .envelope::before { transform: rotateX(180deg); z-index: 0; }
+        .envelope-wrapper.open .card { transform: translateY(-180px); z-index: 3; height: 380px; width: 320px; left: 0; }
+        .rose { font-size: 40px; margin: 5px 0; display: none; }
+        #bubu-video { width: 100%; border-radius: 10px; display: none; margin-top: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .greeting { color: #d32f2f; font-size: 20px; font-weight: bold; }
+        #hint { margin-top: 10px; font-weight: bold; color: #ff4d6d; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+    <div class="envelope-wrapper" onclick="openCard()">
+        <div class="envelope"></div>
+        <div class="card">
+            <div class="greeting">Hey Bubu! ❤️</div>
+            <video id="bubu-video" controls>
+                <source src="bubu_video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="rose" id="rose">🌹</div>
+            <div id="hint">Bubu, tap to open your surprise! ✨</div>
+        </div>
+    </div>
+
+    <script>
+        function openCard() {
+            const wrapper = document.querySelector('.envelope-wrapper');
+            wrapper.classList.toggle('open');
+            const rose = document.getElementById('rose');
+            const video = document.getElementById('bubu-video');
+            const hint = document.getElementById('hint');
+            
+            if (wrapper.classList.contains('open')) {
+                setTimeout(() => {
+                    rose.style.display = "block";
+                    video.style.display = "block";
+                    hint.innerHTML = "I Love You So Much! 💖";
+                    // Video auto-play (kuch browsers block karte hain, isliye manual play button bhi hai)
+                    video.play();
+                }, 400);
+            } else {
+                rose.style.display = "none";
+                video.style.display = "none";
+                video.pause();
+                hint.innerText = "Bubu, tap to open! ✨";
+            }
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-fall');
+            const heartTypes = ['❤️', '💖', '💕'];
+            heart.innerHTML = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            const duration = Math.random() * 5 + 7;
+            heart.style.animationDuration = duration + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, duration * 1000);
+        }
+        setInterval(createHeart, 600);
+    </script>
+</body>
+</html>
